@@ -1,38 +1,17 @@
-# create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Pomodoro Website
 
-## Creating a project
+This repository holds the source code for my simple pomodoro website. I've created it during one of my exam phases to help me with studying. Also I'm using the SvelteKit framework since I've always wanted to try and implement something with Svelte.
 
-If you're seeing this, you've probably already done this step. Congrats!
+https://pomodoro.manuelbrandstetter.de
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Badges
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
 
-## Developing
+## License
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+[MIT](https://choosealicense.com/licenses/mit/)
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
