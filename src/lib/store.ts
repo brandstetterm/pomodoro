@@ -1,26 +1,30 @@
 import {writable} from "svelte/store";
 
-type PomodoroStore = {
+export type PomodoroStore = {
   status: "IDLE" | "COMPLETED" | "PAUSED" | "RUNNING";
+  mode: "POMODORO" | "SHORT_BREAK" | "LONG_BREAK";
   interval: NodeJS.Timer | undefined;
   time: number;
 };
 
-enum PomodoroMode {
-  POMODORO = 25 * 60,
-  SHORT_BREAK = 5 * 60,
-  LONG_BREAK = 15 * 60,
-};
-
 const {subscribe, update} = writable<PomodoroStore>({
   status: "IDLE",
+  mode: "POMODORO",
   interval: undefined,
-  time: PomodoroMode.POMODORO,
+  time: 1500,
 });
 
-const setPomodoro = (minutes: number) => {
+const setPomodoro = (mode: "POMODORO" | "SHORT_BREAK" | "LONG_BREAK") => {
   update((pomodoro) => {
-    pomodoro.time = minutes * 60;
+    pomodoro.status = "IDLE";
+    pomodoro.mode = mode;
+    switch (mode) {
+      case "POMODORO": pomodoro.time = 1500; break;
+      case "SHORT_BREAK": pomodoro.time = 300; break;
+      case "LONG_BREAK": pomodoro.time = 900; break;
+    }
+    clearInterval(pomodoro.interval);
+    pomodoro.interval = undefined;
     return pomodoro;
   });
 };
