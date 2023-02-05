@@ -1,8 +1,11 @@
 import {writable} from "svelte/store";
 
+type PomodoroStatus = "IDLE" | "COMPLETED" | "PAUSED" | "RUNNING";
+type PomodoroMode = "POMODORO" | "SHORT_BREAK" | "LONG_BREAK";
+
 export type PomodoroStore = {
-  status: "IDLE" | "COMPLETED" | "PAUSED" | "RUNNING";
-  mode: "POMODORO" | "SHORT_BREAK" | "LONG_BREAK";
+  status: PomodoroStatus;
+  mode: PomodoroMode;
   interval: NodeJS.Timer | undefined;
   time: number;
 };
@@ -14,60 +17,77 @@ const {subscribe, update} = writable<PomodoroStore>({
   time: 1500,
 });
 
-const setPomodoro = (mode: "POMODORO" | "SHORT_BREAK" | "LONG_BREAK") => {
+const resetPomodoroTime = () => {
   update((pomodoro) => {
-    pomodoro.status = "IDLE";
-    pomodoro.mode = mode;
-    switch (mode) {
+    switch (pomodoro.mode) {
       case "POMODORO": pomodoro.time = 1500; break;
       case "SHORT_BREAK": pomodoro.time = 300; break;
       case "LONG_BREAK": pomodoro.time = 900; break;
     }
+    return pomodoro;
+  });
+};
+
+const updatePomodoroStatus = (status: PomodoroStatus) => {
+  update((pomodoro) => {
+    pomodoro.status = status;
+    return pomodoro;
+  });
+};
+
+const updatePomodoroMode = (mode: PomodoroMode) => {
+  update((pomodoro) => {
+    pomodoro.mode = mode;
+    return pomodoro;
+  });
+};
+
+const startPomodoroInterval = () => {
+  update((state) => {
+    if (!state.interval) {
+      state.interval = setInterval(() => {
+        update((pomodoro) => {
+          if (pomodoro.time > 0) {
+            pomodoro.time = pomodoro.time - 1;
+          } else {
+            updatePomodoroStatus("COMPLETED");
+            clearPomodoroInterval();
+            resetPomodoroTime();
+          }
+          return pomodoro;
+        });
+      }, 1000);
+    }
+    return state;
+  });
+};
+
+const clearPomodoroInterval = () => {
+  update((pomodoro) => {
     clearInterval(pomodoro.interval);
     pomodoro.interval = undefined;
     return pomodoro;
   });
 };
 
-const startPomodoro = () => {
-  update((pomodoro) => {
-    if (!pomodoro.interval) {
-      pomodoro.status = "RUNNING";
-      pomodoro.interval = setInterval(() => {
-        update((pomodoroState) => {
-          if (pomodoroState.time > 0) {
-            pomodoroState.time = pomodoroState.time - 1;
-          } else {
-            pomodoroState.status = "COMPLETED";
-            clearInterval(pomodoroState.interval);
-            pomodoroState.interval = undefined;
-          }
-          return pomodoroState;
-        });
-      }, 1000);
-      return pomodoro;
-    }
-    return pomodoro;
-  });
+const start = () => {
+  updatePomodoroStatus("RUNNING");
+  startPomodoroInterval();
 };
 
-const pausePomodoro = () => {
-  update((state) => {
-    state.status = "PAUSED";
-    clearInterval(state.interval);
-    state.interval = undefined;
-    return state;
-  })
+const pause = () => {
+  updatePomodoroStatus("PAUSED");
+  clearPomodoroInterval();
 };
 
-const completePomodoro = () => {
-  update((state) => {
-    state.status = "COMPLETED";
-    clearInterval(state.interval);
-    state.interval = undefined;
-    return state;
-  })
+
+const changeMode = (mode: PomodoroMode) => {
+  clearPomodoroInterval();
+  updatePomodoroStatus("IDLE");
+  updatePomodoroMode(mode);
+  resetPomodoroTime();
 };
 
-export {subscribe, setPomodoro, startPomodoro, pausePomodoro, completePomodoro};
+
+export {subscribe, start, pause, changeMode};
 

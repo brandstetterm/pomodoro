@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {subscribe, startPomodoro, pausePomodoro, type PomodoroStore} from "$lib/store";
+  import {subscribe, start, pause, type PomodoroStore} from "$lib/store";
     import { onDestroy } from "svelte";
 
   let pomodoro: PomodoroStore;
@@ -14,11 +14,11 @@
 
 {#if pomodoro.status === "RUNNING"}
   <button 
-    on:click={pausePomodoro}
+    on:click={pause}
   >Pause</button>
 {:else}
   <button 
-    on:click={startPomodoro}
+    on:click={start}
   >Start</button>
 {/if}
 

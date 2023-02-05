@@ -1,6 +1,6 @@
 <script lang="ts">
   import {type PomodoroStore, subscribe} from "$lib/store";
-    import { onDestroy } from "svelte";
+  import { onDestroy } from "svelte";
 
   let pomodoro: PomodoroStore;
   const unsubscribe = subscribe((state) => {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import {onDestroy} from "svelte";
-  import {subscribe, setPomodoro} from "$lib/store";
+  import {subscribe, changeMode} from "$lib/store";
 
   let currentMode: "POMODORO" | "SHORT_BREAK" | "LONG_BREAK";
   const unsubscribe = subscribe((state) => {
@@ -13,19 +13,19 @@
 <div>
   <button 
     class:active={currentMode === "POMODORO"}
-    on:click={() => setPomodoro("POMODORO")}
+    on:click={() => changeMode("POMODORO")}
   >
     Pomodoro
   </button>
   <button 
     class:active={currentMode === "SHORT_BREAK"}
-    on:click={() => setPomodoro("SHORT_BREAK")}
+    on:click={() => changeMode("SHORT_BREAK")}
   >
     Short Break
   </button>
   <button 
     class:active={currentMode === "LONG_BREAK"}
-    on:click={() => setPomodoro("LONG_BREAK")}
+    on:click={() => changeMode("LONG_BREAK")}
   >
     Long Break
   </button>
