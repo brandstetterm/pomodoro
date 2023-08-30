@@ -80,6 +80,12 @@ const pause = () => {
   clearPomodoroInterval();
 };
 
+const reset = () => {
+    updatePomodoroStatus("IDLE");
+    clearPomodoroInterval();
+    resetPomodoroTime();
+};
+
 
 const changeMode = (mode: PomodoroMode) => {
   clearPomodoroInterval();
@@ -89,5 +95,5 @@ const changeMode = (mode: PomodoroMode) => {
 };
 
 
-export {subscribe, start, pause, changeMode};
+export {subscribe, start, pause, reset, changeMode};
 

@@ -32,9 +32,8 @@
 
 <style>
   time {
-    font-size: 128px;
+    font-size: 8rem;
     font-weight: 300;
-    font-family: "Ubuntu", sans-serif;
-    color: #ff0057;
+    color: var(--text);
   }
 </style>

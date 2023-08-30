@@ -10,6 +10,22 @@
 </main>
 
 <style>
+  :root {
+    --base: #303446;
+    --text: #c6d0f5;
+    --blue: #8caaee;
+    --red: #e78284;
+    --green: #a6d189;
+    --white: #fff;
+    --gray: #a6a6a6;
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: "Ubuntu", sans-serif;
+  }
+
+
   main {
     position: fixed;
     inset: 0;
@@ -19,7 +35,7 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
-    background-color: #242c3d;
+    background-color: var(--base);
   }
 
 
@@ -29,7 +45,7 @@
   }
 
   a {
-    color: #ff0057;
+    color: var(--blue);
     height: 32px;
     width: 32px;
     padding: 0;
